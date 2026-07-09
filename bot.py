@@ -6,7 +6,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 from config import TELEGRAM_BOT_TOKEN, PERSONALITY_MODES, DEFAULT_MODE, MAX_HISTORY_MESSAGES
 from services.database import init_db, get_user_settings, set_user_mode, set_custom_prompt, add_message_to_history, get_chat_history, clear_chat_history
-from services.hf_api import HuggingFaceAPI
+from services.hf_api import GroqAPI
 
 # Enable logging
 logging.basicConfig(
@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-hf_api = HuggingFaceAPI()
+groq_api = GroqAPI()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
@@ -131,7 +131,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     try:
         # Send typing action
         await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
-        ai_response = await hf_api.generate_text(messages)
+        ai_response = await groq_api.generate_text(messages)
         await update.message.reply_text(ai_response)
         await add_message_to_history(user_id, "assistant", ai_response)
     except Exception as e:
