@@ -1,0 +1,12 @@
+app = "nexagen-ai-chatbot"
+primary_region = "sin"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  GROQ_MODEL = "llama-3.1-8b-instant"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
