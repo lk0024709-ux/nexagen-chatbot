@@ -115,7 +115,7 @@ async def send_settings(chat_id, user_id, context):
         "⚙️ **Bot Settings:**\n\n"
         f"🎭 Current Mode: {mode_name}\n"
         f"💬 History Length: {MAX_HISTORY_MESSAGES} messages\n"
-        f"🤖 AI Model: Llama 3.1 (Groq)\n"
+        f"🤖 AI Model: Llama 3.3 (Groq)\n"
     )
 
     keyboard = [
@@ -200,7 +200,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         all_modes = {**PERSONALITY_MODES, **FEATURE_MODES}
         mode_name = all_modes.get(current_mode, {}).get("name", current_mode)
         await query.edit_message_text(
-            f"⚙️ **Settings**\n\n🎯 Current: {mode_name}\n💬 History: {MAX_HISTORY_MESSAGES} msgs\n🤖 Model: Llama 3.1",
+            f"⚙️ **Settings**\n\n🎯 Current: {mode_name}\n💬 History: {MAX_HISTORY_MESSAGES} msgs\n🤖 Model: Llama 3.3",
             reply_markup=InlineKeyboardMarkup(keyboard),
             parse_mode="Markdown"
         )
