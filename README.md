@@ -1,10 +1,10 @@
 # NexaGen AI Studio Telegram Chatbot
 
-This is a Python-based Telegram AI chatbot that leverages the Hugging Face Inference API with the Llama-3.1-8B-Instruct model to provide conversational AI with various personality modes.
+This is a Python-based Telegram AI chatbot that leverages the Groq API with the Llama-3.3-70B model to provide conversational AI with various personality modes.
 
 ## Features
 
-- **AI Chatbot**: Powered by `meta-llama/Llama-3.1-8B-Instruct` via Hugging Face Inference API.
+- **AI Chatbot**: Powered by `llama-3.3-70b-versatile` via Groq API.
 - **Personality Modes**: Users can switch between predefined personality modes or set a custom prompt.
   - `/human`: Normal, casual, and natural conversation.
   - `/emotion`: Emotional, empathetic, and understanding responses.
