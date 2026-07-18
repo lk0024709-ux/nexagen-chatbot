@@ -5,7 +5,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 from config import TELEGRAM_BOT_TOKEN, PERSONALITY_MODES, FEATURE_MODES, DEFAULT_MODE, MAX_HISTORY_MESSAGES
 from services.database import init_db, get_user_settings, set_user_mode, set_custom_prompt, add_message_to_history, get_chat_history, clear_chat_history
-from services.hf_api import GroqAPI
+from services.hf_api import GroqAPI, AzureOpenAIAPI
 
 # Enable logging
 logging.basicConfig(
@@ -14,6 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 groq_api = GroqAPI()
+azure_api = AzureOpenAIAPI()
 
 # ==================== COMMAND HANDLERS ====================
 
@@ -110,12 +111,13 @@ async def send_settings(chat_id, user_id, context):
 
     all_modes = {**PERSONALITY_MODES, **FEATURE_MODES}
     mode_name = all_modes.get(current_mode, {}).get("name", current_mode)
+    model_display = "GPT-5 (Azure SDK)" if current_mode == "gpt" else "Llama 3.3 (Groq)"
 
     settings_text = (
         "⚙️ **Bot Settings:**\n\n"
         f"🎭 Current Mode: {mode_name}\n"
         f"💬 History Length: {MAX_HISTORY_MESSAGES} messages\n"
-        f"🤖 AI Model: Llama 3.3 (Groq)\n"
+        f"🤖 AI Model: {model_display}\n"
     )
 
     keyboard = [
@@ -199,8 +201,9 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         current_mode = user_settings.get("current_mode", DEFAULT_MODE) if user_settings else DEFAULT_MODE
         all_modes = {**PERSONALITY_MODES, **FEATURE_MODES}
         mode_name = all_modes.get(current_mode, {}).get("name", current_mode)
+        model_display = "GPT-5 (Azure SDK)" if current_mode == "gpt" else "Llama 3.3 (Groq)"
         await query.edit_message_text(
-            f"⚙️ **Settings**\n\n🎯 Current: {mode_name}\n💬 History: {MAX_HISTORY_MESSAGES} msgs\n🤖 Model: Llama 3.3",
+            f"⚙️ **Settings**\n\n🎯 Current: {mode_name}\n💬 History: {MAX_HISTORY_MESSAGES} msgs\n🤖 Model: {model_display}",
             reply_markup=InlineKeyboardMarkup(keyboard),
             parse_mode="Markdown"
         )
@@ -311,7 +314,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     try:
         # Send typing action
         await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
-        ai_response = await groq_api.generate_text(messages)
+
+        # Route to GPT-5 via Microsoft Azure OpenAI SDK when gpt mode is active
+        if current_mode_key == "gpt":
+            ai_response = await azure_api.generate_text(messages)
+        else:
+            ai_response = await groq_api.generate_text(messages)
+
         await update.message.reply_text(ai_response)
         await add_message_to_history(user_id, "assistant", ai_response)
     except Exception as e:

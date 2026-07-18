@@ -1,4 +1,16 @@
+# Telegram Bot
 python-telegram-bot==20.8
+
+# HTTP Clients
 aiohttp==3.9.5
+requests==2.31.0
+
+# Database
 aiosqlite==0.20.0
+
+# Environment
 python-dotenv==1.0.1
+
+# Microsoft Azure OpenAI SDK (GPT-5)
+azure-ai-openai>=1.0.0
+azure-identity>=1.15.0

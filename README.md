@@ -4,7 +4,8 @@ This is a Python-based Telegram AI chatbot that leverages the Groq API with the 
 
 ## Features
 
-- **AI Chatbot**: Powered by `llama-3.3-70b-versatile` via Groq API.
+- **AI Chatbot**: Powered by `llama-3.3-70b-versatile` via Groq API and **GPT-5** via GitHub Models API.
+- **GPT-5 Mode**: Use `/gpt` to activate the most capable model (GPT-5) via your GitHub token.
 - **Personality Modes**: Users can switch between predefined personality modes or set a custom prompt.
   - `/human`: Normal, casual, and natural conversation.
   - `/emotion`: Emotional, empathetic, and understanding responses.
@@ -18,7 +19,16 @@ This is a Python-based Telegram AI chatbot that leverages the Groq API with the 
   - `/help`: Displays a list of all available commands and their descriptions.
   - `/reset`: Clears the current conversation history for the user.
   - `/mode`: Shows the user's current active personality mode.
-- **Chat History**: Maintains the last 10 messages per user for conversational context.
+  - `/gpt`: Activates GPT-5 model (powered by GitHub token) — the most capable model.
+- **Feature Modes**: Additional capabilities like web search, code generation, image imagination, analysis, planning, and deep reasoning.
+  - `/search`: Web search mode.
+  - `/imagine`: Image prompt generation.
+  - `/code`: Code generation and debugging.
+  - `/analyze`: Data and text analysis.
+  - `/plan`: Task planning and step-by-step execution.
+  - `/reason`: Deep multi-step reasoning.
+  - `/gpt`: Activate GPT-5 (Advanced) — the most capable model via GitHub token.
+- **Chat History**: Maintains the last 15 messages per user for conversational context.
 - **User Settings Persistence**: Current mode and custom prompts are saved in an SQLite database.
 - **Robust API Integration**: Includes error handling and retry logic for Hugging Face API calls.
 
@@ -96,6 +106,7 @@ nexagen-chatbot/
 - To set a custom prompt, use `/custom` and then send your desired system prompt as the next message.
 - To clear conversation history, use `/reset`.
 - To check the current mode, use `/mode`.
+- To activate GPT-5 (the most capable model), use `/gpt`. This requires a valid `GITHUB_TOKEN` in your environment.
 
 ## Personality Prompts
 

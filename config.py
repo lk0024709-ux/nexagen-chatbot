@@ -6,12 +6,71 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 GROQ_MODEL = os.getenv('GROQ_MODEL', 'llama-3.3-70b-versatile')
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5')
+
+# Microsoft Azure OpenAI Configuration (GPT-5 via Microsoft SDK)
+AZURE_OPENAI_API_KEY = os.getenv('AZURE_OPENAI_API_KEY')
+AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT', 'https://api.openai.azure.com/')
+AZURE_OPENAI_API_VERSION = os.getenv('AZURE_OPENAI_API_VERSION', '2024-02-15-preview')
+AZURE_OPENAI_DEPLOYMENT_NAME = os.getenv('AZURE_OPENAI_DEPLOYMENT_NAME', 'gpt-5')
+MICROSOFT_SDK_AUTH = os.getenv('MICROSOFT_SDK_AUTH', 'github-token')
+
+# Model Selection & Fallback
+PRIMARY_AI = os.getenv('PRIMARY_AI', 'gpt-5')
+FALLBACK_MODEL = os.getenv('FALLBACK_MODEL', 'llama3-70b')
+MODEL_PRIORITY = os.getenv('MODEL_PRIORITY', 'gpt-5,llama3-70b,llama3-8b')
+AI_PROVIDERS = os.getenv('AI_PROVIDERS', 'azure-openai,groq')
+
+# Llama 3 Models
+LLAMA3_70B = os.getenv('LLAMA3_70B', 'llama3-70b-8192')
+LLAMA3_8B = os.getenv('LLAMA3_8B', 'llama3-8b-8192')
 
 # Database configuration
 DB_PATH = 'chatbot.db'
 
 # Chat history settings
 MAX_HISTORY_MESSAGES = 15
+
+# Model Configuration
+MODELS = {
+    'gpt-5': {
+        'provider': 'microsoft-azure',
+        'capability': 'most-capable',
+        'context': 16384,
+        'cost': 'high',
+        'description': 'GPT-5 via Microsoft Azure OpenAI SDK',
+        'auth': 'github-token'
+    },
+    'gpt-4-turbo': {
+        'provider': 'microsoft-azure',
+        'capability': 'high',
+        'context': 128000,
+        'cost': 'medium',
+        'description': 'GPT-4 Turbo via Azure'
+    },
+    'gpt-4': {
+        'provider': 'microsoft-azure',
+        'capability': 'high',
+        'context': 8192,
+        'cost': 'medium',
+        'description': 'GPT-4 via Azure'
+    },
+    'llama3-70b': {
+        'provider': 'groq',
+        'capability': 'high-open-source',
+        'context': 8192,
+        'cost': 'low',
+        'description': 'Meta Llama 3 70B (Open Source)'
+    },
+    'llama3-8b': {
+        'provider': 'groq',
+        'capability': 'efficient-open-source',
+        'context': 8192,
+        'cost': 'very-low',
+        'description': 'Meta Llama 3 8B (Efficient)'
+    }
+}
 
 # Personality Modes
 PERSONALITY_MODES = {
@@ -113,6 +172,11 @@ FEATURE_MODES = {
         "name": "🧩 Deep Reason",
         "description": "Multi-step deep reasoning and problem solving.",
         "prompt": "You are a deep reasoning AI. For any problem or question, think step-by-step through the logic. Show your reasoning process clearly. Consider multiple angles, identify assumptions, evaluate evidence, and arrive at well-supported conclusions. Be thorough and methodical in your analysis."
+    },
+    "gpt": {
+        "name": "🤖 GPT-5 (Advanced)",
+        "description": "Most capable model powered by GPT-5 via Microsoft Azure OpenAI SDK. Best for complex tasks.",
+        "prompt": "You are a highly capable AI assistant powered by GPT-5 via Microsoft Azure OpenAI. Provide accurate, detailed, and insightful responses. You excel at complex reasoning, creative writing, coding, analysis, and multi-step tasks. Be thorough, precise, and helpful in all your responses."
     }
 }
 
