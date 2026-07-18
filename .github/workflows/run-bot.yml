@@ -1,16 +1,60 @@
-name: Run NexaGen AI Bot
+name: Run NexaGen AI Bot (GPT-5 via Microsoft SDK)
 
 on:
-  workflow_dispatch:        # Manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      primary_model:
+        description: 'Primary AI Model'
+        required: false
+        default: 'gpt-5'
+        type: choice
+        options:
+          - 'gpt-5'
+          - 'gpt-4-turbo'
+          - 'gpt-4'
+          - 'llama3-70b'
+          - 'llama3-8b'
+      fallback_model:
+        description: 'Fallback Model'
+        required: false
+        default: 'llama3-70b'
+        type: choice
+        options:
+          - 'llama3-70b'
+          - 'llama3-8b'
+          - 'gpt-4'
+          - 'gpt-3.5-turbo'
   schedule:
-    - cron: '*/5 * * * *'  # Auto-run every 5 minutes
+    - cron: '*/5 * * * *'
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     timeout-minutes: 350
+    env:
+      # GPT-5 via Microsoft SDK
+      GPT_MODEL: 'gpt-5'
+      GPT_VERSION: '5.0'
+      GPT_CAPABILITY: 'most-capable'
+      MICROSOFT_ENDPOINT: 'https://api.openai.azure.com/'
+      AZURE_OPENAI_API_VERSION: '2024-02-15-preview'
+      AZURE_OPENAI_DEPLOYMENT: 'gpt-5'
+      
+      # Llama 3 Models
+      LLAMA3_70B: 'llama3-70b-8192'
+      LLAMA3_8B: 'llama3-8b-8192'
+      LLAMA3_VERSION: '3.0'
+      LLAMA3_CAPABILITY: 'open-source-efficient'
+      
+      # Model Selection
+      PRIMARY_AI: 'gpt-5'
+      FALLBACK_AI: 'llama3-70b'
+      MODEL_PRIORITY: 'gpt-5,llama3-70b,llama3-8b'
+      AI_PROVIDERS: 'azure-openai,groq'
+      
+      # GitHub Token for authentication
+      GITHUB_TOKEN_USAGE: 'microsoft-sdk-auth'
+      
     steps:
-      - Checkout repository
-      - Set up Python 3.11
-      - Install dependencies
-      - Run NexaGen AI Bot (with all 5 env secrets)
+      - name: Checkout repository
+        u
