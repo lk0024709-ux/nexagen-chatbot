@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <defs>
+    <linearGradient id="neonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#4facfe" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="60" rx="10" fill="none"/>
+  <circle cx="35" cy="30" r="15" fill="url(#neonGlow)" opacity="0.3"/>
+  <polygon points="30,22 45,30 30,38" fill="#00f2fe"/>
+  <text x="65" y="37" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="900" font-size="20" fill="#ffffff" letter-spacing="1">NEXAGEN</text>
+  <text x="65" y="48" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="600" font-size="8" fill="#00f2fe" letter-spacing="2">STUDIO</text>
+</svg>
